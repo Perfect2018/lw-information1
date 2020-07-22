@@ -5,6 +5,12 @@ const selectData = (content,value1) => {
   let params = {content,value1}
   return api._post('/sgdj-sms/sms/selectSendSms', params)
 }
+
+const getData = (sendName) =>{
+  let params = {sendName}
+  return api._post('/sgdj-sms/sms/selectSendPhone',params)
+}
+
 const getCount = () => {
   let params = {'proxyId': proxyId}
   return api._post('/bcars-fresh/analysisReport/businessStatistics', params);
@@ -18,5 +24,6 @@ const getUserCount = () => {
 export default {
   selectData,
   getCount,
-  getUserCount
+  getUserCount,
+  getData
 }

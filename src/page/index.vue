@@ -34,20 +34,31 @@
         <el-table style="width:100%" :data="tableData">
           <el-table-column label="消息编号" width="150" prop="sendNo"></el-table-column>
           <el-table-column label="发送日期" width="150" prop="sendDate"></el-table-column>
-          <el-table-column label="消息类型" width="100" prop="sendType" :formatter="isType"></el-table-column>
+          <el-table-column label="消息类型" width="100" prop="sendType"></el-table-column>
           <el-table-column label="发送数量" width="100" prop="sendSum"></el-table-column>
           <el-table-column label="发送成功数" width="100" prop="sendOk"></el-table-column>
           <el-table-column label="回调通知数" width="100" prop="sendReturn"></el-table-column>
           <el-table-column label="模板内容" width="180" prop="sendMould"></el-table-column>
           <el-table-column label="操作" width="100">
             <template slot-scope="scope">
-              <el-button type="primary" size="small" @click="showList(scope.row)">查看列表</el-button>
+              <el-button type="primary" size="small" @click="showList(scope.$index,scope.row)">查看列表</el-button>
             </template>
           </el-table-column>
 
         </el-table>
       </el-card>
     </el-main>
+
+    <!-- 发送账户查看 -->
+    <el-dialog title="发送账户查看" :visible.sync="isShow">
+      <el-table :data="list">
+        <el-table-column width="130" align="center">
+          <template slot-scope="scope">
+            <span>{{scope.row}}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
     <el-footer></el-footer>
   </el-container>
 </template>
@@ -68,7 +79,9 @@ export default {
         value1: "",
         content:'',
       },
-      tableData:[]
+      tableData:[],
+      list:[],
+      isShow:false
     };
   },
   computed: {},
@@ -93,15 +106,27 @@ export default {
     },
 
     // 查看列表
-    showList(row){
-      console.log(row)
+    showList(index,row){
+      indexApi.getData(row.sendName).then(res=>{
+        this.list = res.data
+        this.isShow = true
+      }).catch(()=>{
+        this.$message({
+          type:'warning',
+          message:'数据异常'
+        })
+      })
     },
 
-    isType(row){
-      return row.sendType == '01' ? '短信' :''
-    }
+  
+    // isType(row){
+    //   return row.sendType == '01' ? '短信' :''
+    // }
   },
-
+ 
+  // 1 2 3  0 1 2
+  // 4 5 6  3 4 5
+  // 7 8 9  6 7 8
   mounted() {
     indexApi.selectData().then(res=>{
       if(res.success){
@@ -110,7 +135,7 @@ export default {
     }).catch(()=>{
       this.$message({
         type:'warning',
-        message:'暂未数据'
+        message:'暂无数据'
       })
     })
   },

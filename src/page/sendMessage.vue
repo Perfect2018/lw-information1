@@ -105,9 +105,18 @@ export default {
       this.file = item.file;
     },
     submit() {
-      console.log(this.file);
+      // console.log(this.file);
       sendMessage.save(this.file,this.ruleForm.num,this.ruleForm.type,this.ruleForm.desc).then(res=>{
-        console.log(res)
+        if(res.success){
+          this.$message({
+            type:'success',
+            message:'上传成功'
+          })
+          // this.file='',
+          this.ruleForm.num='',
+          this.ruleForm.type='',
+          this.ruleForm.desc=''
+        }
       }).catch(()=>{
         this.$message({
           type:'warning',

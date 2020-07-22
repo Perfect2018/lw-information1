@@ -113,7 +113,7 @@ export default {
           rsaPassWord
         )
         .then(result => {
-          console.log(result)
+          // console.log(result)
           this.$message({
             type: result.success ? "success" : "warning",
             message: result.error.msg

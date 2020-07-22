@@ -5,7 +5,7 @@
       <div class="title">蔬果到家</div>
       <div class="item" @click="go('index')">信息管理</div>
       <div class="item" @click="go('sendMessage')">手动短信批量发送</div>
-      <div class="item" @click="go('look')">发送账户查看</div>
+      <!-- <div class="item" @click="go('look')">发送账户查看</div> -->
     </el-aside>
     <router-view :style="{marginLeft:'200px'}" :clientHeight="clientHeight"/>
   </el-container>
